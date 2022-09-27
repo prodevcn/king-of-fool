@@ -25,6 +25,7 @@ const Control = ({ setInfo }) => {
     await state.contract.methods
       .becomeKing()
       .send({ from: state.accounts[0], value: wei });
+    getInfo();
   };
 
   const getInfo = useCallback(async () => {
@@ -40,11 +41,6 @@ const Control = ({ setInfo }) => {
     );
     const wei = await state.web3.eth.getBalance(state.accounts[0]);
     const accountBalance = state.web3.utils.fromWei(String(wei), "ether");
-
-    const isFirstDeposit = await state.contract.methods
-      .checkFirstDeposit()
-      .call();
-    console.log("Check first deposit: ", isFirstDeposit);
 
     setInfo({
       currentKing,

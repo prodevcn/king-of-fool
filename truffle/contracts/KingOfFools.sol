@@ -69,7 +69,7 @@ contract KingOfFools {
             require(deposit > 0, "Deposit must be more than 0");
             _;
         } else {
-            require(deposit > (deposits[king] * 3) / 2, "Insufficient deposit");
+            require(deposit >= (deposits[king] * 3) / 2, "Insufficient deposit");
             _;
         }
     }

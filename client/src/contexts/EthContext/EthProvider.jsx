@@ -32,7 +32,7 @@ function EthProvider({ children }) {
   useEffect(() => {
     const tryInit = async () => {
       try {
-        const artifact = require("../../contracts/KingOfTheFools.json");
+        const artifact = require("../../contracts/KingOfFools.json");
         init(artifact);
       } catch (err) {
         console.error(err);
