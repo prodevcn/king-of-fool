@@ -7,14 +7,9 @@ const Control = ({ setInfo }) => {
 
   const handleInputChange = (e) => {
     const format = /^[0-9]+\.?[0-9]*$/;
-    // const format = /^\d+$|^$/;
-    console.log(format.test(e.target.value));
     if (format.test(e.target.value)) {
       setAmount(e.target.value);
-      // console.log(format.test());
     }
-
-    // setAmount(e.target.value);
   };
 
   const becomeKing = async (e) => {
@@ -45,6 +40,12 @@ const Control = ({ setInfo }) => {
     );
     const wei = await state.web3.eth.getBalance(state.accounts[0]);
     const accountBalance = state.web3.utils.fromWei(String(wei), "ether");
+
+    const isFirstDeposit = await state.contract.methods
+      .checkFirstDeposit()
+      .call();
+    console.log("Check first deposit: ", isFirstDeposit);
+
     setInfo({
       currentKing,
       currentDeposit,

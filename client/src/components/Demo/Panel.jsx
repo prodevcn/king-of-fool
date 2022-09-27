@@ -1,5 +1,4 @@
 import { useRef, useEffect } from "react";
-import lib from "../../utils/lib";
 
 const Panel = ({ info }) => {
   const spanEle = useRef(null);
@@ -20,25 +19,29 @@ const Panel = ({ info }) => {
       <hr></hr>
       <ul className="data-container">
         <li className="data-item">
-          <strong>Current King 👑:</strong><br/>
+          <strong>Current King 👑:</strong>
+          <br />
           <span className="secondary-color" ref={spanEle}>
             <strong>{info.currentKing}</strong>
           </span>
         </li>
         <li className="data-item">
-          <strong>Current Deposit 💰:</strong><br/>
+          <strong>Current Deposit 💰:</strong>
+          <br />
           <span className="secondary-color" ref={spanEle}>
             <strong>{info.currentDeposit} ETH</strong>
           </span>
         </li>
         <li className="data-item">
-          <strong>Required Deposit 💰:</strong><br/>
+          <strong>Required Deposit 💰:</strong>
+          <br />
           <span className="secondary-color" ref={spanEle}>
             <strong>{info.requiredDeposit} ETH</strong>
           </span>
         </li>
         <li className="data-item">
-          <strong>Your Balance 💰:</strong><br/>
+          <strong>Your Balance 💰:</strong>
+          <br />
           <span className="secondary-color" ref={spanEle}>
             <strong>{info.accountBalance} ETH</strong>
           </span>

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.4.22 <0.9.0;
 
-contract KingOfTheFools {
+contract KingOfFools {
     bool private isFirstDeposit;
 
     address payable private king;
@@ -38,6 +38,10 @@ contract KingOfTheFools {
         return addresses;
     }
 
+    function checkFirstDeposit() public view returns (bool) {
+        return isFirstDeposit;
+    }
+
     function getDepositHistory(address _addr) public view returns (uint256) {
         return deposits[_addr];
     }
@@ -48,9 +52,10 @@ contract KingOfTheFools {
 
     function becomeKing() public payable checkSufficient(msg.value) {
         if (isFirstDeposit == true) {
-            isFirstDeposit == false;
+            isFirstDeposit = false;
         } else {
-            king.transfer(msg.value);
+            (bool sent, ) = king.call{value: msg.value}("");
+            require(sent, "Failed to send Ether");
             withdraws[king] = msg.value;
         }
         fools.push(payable(msg.sender));
@@ -64,10 +69,7 @@ contract KingOfTheFools {
             require(deposit > 0, "Deposit must be more than 0");
             _;
         } else {
-            require(
-                deposit > (deposits[king] * 3) / 2,
-                "Insufficient deposit"
-            );
+            require(deposit > (deposits[king] * 3) / 2, "Insufficient deposit");
             _;
         }
     }
