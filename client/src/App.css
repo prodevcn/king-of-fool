@@ -81,7 +81,7 @@ p span.code {
 }
 
 hr {
-  margin: 4rem 0;
+  margin: 1rem 0 2rem;
 }
 
 #App .container .welcome h1 {
@@ -90,12 +90,21 @@ hr {
 }
 
 #App .container .demo .contract-container {
+  margin-top: 30vh;
   display: flex;
 }
 
 #App .container .demo .contract-container code {
   min-width: 42rem;
+  min-height: 30vh;
   border-radius: 1rem 0 0 1rem;
+}
+
+#App .container .demo .contract-container code .data-container{
+  list-style-type: none;
+}
+#App .container .demo .contract-container code .data-item{
+  margin-bottom: 2rem; 
 }
 
 #App .container .demo .contract-container .btns {
@@ -126,12 +135,12 @@ hr {
   background-color: var(--dark-gray);
 }
 
-#App .container .demo .contract-container .btns .input-btn input {
-  width: 4rem;
+#App .container .demo .contract-container .btns .input-field {
   text-align: center;
   font-family: monospace;
   font-size: 1.2rem;
 }
+
 
 #App .container footer {
   padding-bottom: 7.5rem;

@@ -2,40 +2,73 @@
 pragma solidity >=0.4.22 <0.9.0;
 
 contract KingOfTheFools {
-    mapping(address => uint256) pendingWithdrawal;
-    mapping(address => uint256) foolToPay;
+    bool private isFirstDeposit;
 
-    bool private firstRegistered;
-    address payable public kingOfFools;
+    address payable private king;
+    address payable[] private fools;
 
-    event BecomeKingOfFools();
+    mapping(address => uint256) deposits;
+    mapping(address => uint256) withdraws;
+
+    event BecomeKing(address indexed fool, uint256 deposit);
 
     constructor() {
-        firstRegistered = false;
+        isFirstDeposit = true;
+        king = payable(msg.sender);
+        deposits[king] = 0;
     }
 
-    function currentKingOfFools() public view returns (address) {
-        return kingOfFools;
+    function getKing() public view returns (address) {
+        return king;
     }
 
-    function getMostPay() public view returns (uint256) {
-        return foolToPay[kingOfFools];
+    function getDepositOfKing() public view returns (uint256) {
+        return deposits[king];
     }
 
-    function becomeKing()
-        public
-        checkSufficient(msg.sender)
-        payable
-        returns (bool)
-    {
-        
+    function getRequiredDeposit() public view returns (uint256) {
+        return (deposits[king] * 3) / 2;
     }
 
-    modifier checkSufficient(address _caller) {
-        require(
-            _caller.balance > (foolToPay[kingOfFools] * 3) / 2,
-            "In sufficient balance"
-        );
-        _;
+    function getFools() public view returns (address[] memory) {
+        address[] memory addresses;
+        for (uint256 i = 0; i < fools.length; i++) {
+            addresses[i] = fools[i];
+        }
+        return addresses;
+    }
+
+    function getDepositHistory(address _addr) public view returns (uint256) {
+        return deposits[_addr];
+    }
+
+    function getWithdrawHistory(address _addr) public view returns (uint256) {
+        return withdraws[_addr];
+    }
+
+    function becomeKing() public payable checkSufficient(msg.value) {
+        if (isFirstDeposit == true) {
+            isFirstDeposit == false;
+        } else {
+            king.transfer(msg.value);
+            withdraws[king] = msg.value;
+        }
+        fools.push(payable(msg.sender));
+        deposits[msg.sender] = msg.value;
+        king = payable(msg.sender);
+        emit BecomeKing(msg.sender, msg.value);
+    }
+
+    modifier checkSufficient(uint256 deposit) {
+        if (isFirstDeposit == true) {
+            require(deposit > 0, "Deposit must be more than 0");
+            _;
+        } else {
+            require(
+                deposit > (deposits[king] * 3) / 2,
+                "Insufficient deposit"
+            );
+            _;
+        }
     }
 }
